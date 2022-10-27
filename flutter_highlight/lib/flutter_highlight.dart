@@ -27,12 +27,17 @@ class HighlightView extends StatelessWidget {
   /// Specify text styles such as font family and font size
   final TextStyle? textStyle;
 
-  HighlightView(
-    String input, {
+  final int? maxLines;
+
+  final bool selectable;
+
+  HighlightView(String input, {
     this.language,
     this.theme = const {},
     this.padding,
     this.textStyle,
+    this.maxLines,
+    this.selectable = false,
     int tabSize = 8, // TODO: https://github.com/flutter/flutter/issues/50087
   }) : source = input.replaceAll('\t', ' ' * tabSize);
 
@@ -48,7 +53,8 @@ class HighlightView extends StatelessWidget {
             : TextSpan(text: node.value, style: theme[node.className!]));
       } else if (node.children != null) {
         List<TextSpan> tmp = [];
-        currentSpans.add(TextSpan(children: tmp, style: theme[node.className!]));
+        currentSpans.add(
+            TextSpan(children: tmp, style: theme[node.className!]));
         stack.add(currentSpans);
         currentSpans = tmp;
 
@@ -90,12 +96,22 @@ class HighlightView extends StatelessWidget {
     return Container(
       color: theme[_rootKey]?.backgroundColor ?? _defaultBackgroundColor,
       padding: padding,
-      child: RichText(
-        text: TextSpan(
+      child:
+      selectable ?
+      SelectableText.rich(
+        TextSpan(
           style: _textStyle,
-          children: _convert(highlight.parse(source, language: language).nodes!),
+          children: _convert(highlight
+              .parse(source, language: language)
+              .nodes!),
         ),
-      ),
+        maxLines: maxLines,
+      ) : RichText(text: TextSpan(
+        style: _textStyle,
+        children: _convert(highlight
+            .parse(source, language: language)
+            .nodes!),
+      ), maxLines: maxLines, overflow: TextOverflow.ellipsis, softWrap: false,),
     );
   }
 }

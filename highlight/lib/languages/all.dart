@@ -187,6 +187,7 @@ import 'vue.dart';
 import 'graphql.dart';
 import 'gn.dart';
 import 'solidity.dart';
+import 'gclog.dart';
 
 final communityLanguages = {
   'vue': vue,
@@ -258,6 +259,7 @@ final builtinLanguages = {
   'gams': gams,
   'gauss': gauss,
   'gcode': gcode,
+  'gclog': gclog,
   'gherkin': gherkin,
   'glsl': glsl,
   'gml': gml,
