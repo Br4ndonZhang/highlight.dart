@@ -106,6 +106,7 @@ class HighlightView extends StatelessWidget {
               .nodes!),
         ),
         maxLines: maxLines,
+        toolbarOptions: ToolbarOptions(selectAll: true,copy: true),
       ) : RichText(text: TextSpan(
         style: _textStyle,
         children: _convert(highlight
